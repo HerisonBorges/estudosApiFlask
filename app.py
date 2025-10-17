@@ -28,12 +28,30 @@ class Produto(db.Model):
             'quantidade': self.quantidade
         }
     
-    def criandoTabelas(): # Função para criar as tabelas no banco de dados
-        with app.app_context(): # Garante que o contexto da aplicação está ativo
-            db.create_all() # Cria todas as tabelas definidas nos modelos
-            print("Tabelas criadas com sucesso!") 
+def criandoTabelas(): # Função para criar as tabelas no banco de dados
+    with app.app_context(): # Garante que o contexto da aplicação está ativo
+        db.create_all() # Cria todas as tabelas definidas nos modelos
+        print("Tabelas criadas com sucesso!") 
 
-    if __name__ == '__main__': # Verifica se o script está sendo executado diretamente
+if __name__ == '__main__': # Verifica se o script está sendo executado diretamente
         criandoTabelas() # Chama a função para criar as tabelas
         print("Aplicação iniciada!")
 
+
+#--- 1 -- Rota para criar um novo produto
+@app.route('/produtos', methods=['POST']) # INFORMA AO FLASK QUE SE O HTTP FOR POST NA ROTA /PRODUTOS, ELE DEVE CHAMAR A FUNÇÃO ABAIXO
+def criarProduto():
+    dados = request.get_json() # Obtém os dados JSON da requisição
+
+    if ('nome' not in dados or 
+        'preco' not in dados or 
+        'quantidade' not in dados): # Verifica se os campos obrigatórios estão presentes
+
+       
+        return jsonify({'erro': 'Campos obrigatórios faltando'}), 400 
+    novoProduto = Produto( # Cria Objeto: Cria uma instância (objeto) da sua classe de modelo Produto. Este objeto existe apenas na memória do Python por enquanto.
+        nome=dados['nome'], # Mapeamento: Pega o valor da chave 'nome' do dicionário dados (o JSON que o cliente enviou) e atribui ao atributo nome do novo objeto.
+        descricao=dados.get('descricao', ''), # Mapeamento: Pega o valor do 'preco' do dicionário e atribui ao objeto.
+        preco=dados['preco'], # Preço do produto
+        quantidade=dados['quantidade'] # Mapeamento: Pega o valor da 'quantidade' do dicionário e atribui ao objeto.
+    ) 
