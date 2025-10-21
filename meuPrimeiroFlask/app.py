@@ -50,7 +50,6 @@ def obterUsuario(usuario_id): # Função que retorna um usuário específico
             return jsonify(usuario) # Retorna o usuário em formato JSON
     return jsonify({"mensagem": "Usuário não encontrado"}), 404 # Retorna mensagem de erro se o usuário não for encontrado
 
-
 @app.route('/produtos', methods=['POST']) 
 def criarProduto():
 
@@ -87,6 +86,31 @@ def criarUsuario():
     USUARIOS_DB.append(dados)
 
     return jsonify(dados), 201
+
+# ROTA PUT (Atualização) - Remova as chaves e garanta os dois pontos
+@app.route('/produtos/<int:produto_id>', methods=['PUT']) 
+def atualizarProduto(produto_id): # Remova as chaves
+    
+    global PRODUTOS_DB
+    
+    # 1. Percorre a lista para achar o índice
+    for indice, produto in enumerate(PRODUTOS_DB):
+        if produto['id'] == produto_id:
+            
+            # 2. Recebe os novos dados do JSON
+            dadosAtualizados = request.get_json() # Usando 'dadosAtualizados'
+            
+            # 3. Garante que o ID do objeto atualizado é o ID correto
+            dadosAtualizados['id'] = produto_id 
+            
+            # 4. Substitui o item antigo pelo novo no índice encontrado
+            PRODUTOS_DB[indice] = dadosAtualizados
+            
+            # 5. Retorna o objeto atualizado com status 200
+            return jsonify(dadosAtualizados), 200 # <<< Retorna 200 (OK)
+    
+    # Se o loop terminar e o produto não for encontrado
+    return jsonify({"mensagem": "Produto não encontrado para atualização"}), 404
 
 
 
