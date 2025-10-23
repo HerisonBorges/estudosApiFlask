@@ -23,8 +23,8 @@ def servico_atualizar_usuario(usuario_id, dados_atualizados):
     usuarioAtualizado = salvandoAlteracao(dados_atualizados) 
     return usuarioAtualizado # Retorna o objeto (ou None)
     
-def deletarUsuario(usuario_id):
-    sucesso = removerUsuario(usuario_id) 
+def deletarUsuario(usuario_id): # Função para deletar um usuário
+    sucesso = removerUsuario(usuario_id)  # Chama a função deletar do UsuarioRepository
     if sucesso:
         return jsonify({"mensagem": "Usuário deletado com sucesso"}), 200
     else:

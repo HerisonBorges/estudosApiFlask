@@ -18,16 +18,16 @@ def criandoUsuario(): # A função de rota do Flask
     return jsonify(usuario), 201
 
 
-@usuarioAPI.route('/<int:usuario_id>', methods=['PUT'])
-def atualizarUsuario(usuario_id):
-    dados = request.get_json() 
-    usuarioAtualizado = servico_atualizar_usuario(usuario_id, dados)
-    if usuarioAtualizado:
-        return jsonify(usuarioAtualizado), 200
+@usuarioAPI.route('/<int:usuario_id>', methods=['PUT']) # Rota que responde apenas PUT com parametro
+def atualizarUsuario(usuario_id): # Função que atualiza um usuário específico
+    dados = request.get_json() # Pega os dados do request    
+    usuarioAtualizado = servico_atualizar_usuario(usuario_id, dados) # Chama a função do serviço para atualizar o usuário
+    if usuarioAtualizado: # Verifica se o usuário foi atualizado
+        return jsonify(usuarioAtualizado), 200 # Retorna o objeto atualizado
     else:
-        return jsonify({"mensagem": "Usuário não encontrado para atualização"}), 404
+        return jsonify({"mensagem": "Usuário não encontrado para atualização"}), 404 # Retorna mensagem de erro se o usuário não for encontrado
     
     
-@usuarioAPI.route('/<int:usuario_id>', methods=['DELETE'])
-def deletarUsuarioRota(usuario_id):
-    return deletarUsuario(usuario_id)
+@usuarioAPI.route('/<int:usuario_id>', methods=['DELETE']) # Rota que responde apenas DELETE com parametro
+def deletarUsuarioRota(usuario_id): # Função que deleta um usuário específico
+    return deletarUsuario(usuario_id) # Chama a função do serviço para deletar o usuário

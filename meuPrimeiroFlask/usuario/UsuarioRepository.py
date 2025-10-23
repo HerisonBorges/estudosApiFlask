@@ -15,25 +15,25 @@ def usuarioPorId(usuario_id): # Função que retorna um usuário por ID
     return None # Retorna None se o usuário não for encontrado
 
 def adicionarUsuario(novoUsuario): # <<< Deve receber um argumento!
-    global USUARIOS_DB
-    novoID = USUARIOS_DB[-1]['id'] + 1
-    novoUsuario['id'] = novoID
-    USUARIOS_DB.append(novoUsuario)
+    global USUARIOS_DB # 'Variável global para acessar a lista de usuários
+    novoID = USUARIOS_DB[-1]['id'] + 1 # Gera um novo ID baseado na lista global USUARIOS_DB 
+    novoUsuario['id'] = novoID # Adiciona o ID ao novo dicionário 
+    USUARIOS_DB.append(novoUsuario) # Adiciona o novo usuário à lista GLOBAL 
 
-    return USUARIOS_DB[-1]
-
-def salvandoAlteracao(usuarioParaAtualizar):
-    global USUARIOS_DB   
-    id_para_atualizar = usuarioParaAtualizar['id'] 
-    for indice, usuario_existente in enumerate(USUARIOS_DB):
-        if usuario_existente['id'] == id_para_atualizar:
-            USUARIOS_DB[indice] = usuarioParaAtualizar
-            return usuarioParaAtualizar
+    return USUARIOS_DB[-1] # Retorna o usuário adicionado  
+ 
+def salvandoAlteracao(usuarioParaAtualizar):   # Função para salvar alterações em um usuário 
+    global USUARIOS_DB   #  'Variável global para acessar a lista de usuários
+    id_para_atualizar = usuarioParaAtualizar['id']  # Obtém o ID do usuário a ser atualizado 
+    for indice, usuario_existente in enumerate(USUARIOS_DB): # Percorre a lista para achar o índice 
+        if usuario_existente['id'] == id_para_atualizar: # Verifica se o ID do usuário corresponde ao ID fornecido
+            USUARIOS_DB[indice] = usuarioParaAtualizar # Substitui o item antigo pelo novo no índice encontrado
+            return usuarioParaAtualizar # retorna o objeto atualizado   
             
-    return None
+    return None # Retorna None se o usuário não for encontrado
 
-def removerUsuario(usuario_id):
-    global USUARIOS_DB
+def removerUsuario(usuario_id): # Função para deletar um usuário
+    global USUARIOS_DB # 'Variável global para acessar a lista de usuários
     for indice, usuario in enumerate(USUARIOS_DB): # Percorre a lista de usuários
         if usuario['id'] == usuario_id: # Verifica se o ID do usuário corresponde ao ID fornecido
             USUARIOS_DB.pop(indice) # Remove o usuário da lista

@@ -10,7 +10,7 @@ def obterProdutoPorId(produto_id): # Função que retorna um produto específico
 
     produto = porId(produto_id) # Chama a função porId do ProdutoRepository
     if produto: 
-        return jsonify(produto) 
+        return jsonify(produto) # Retorna o objeto retornado pela função porId em formato JSON
     else:
         return jsonify({"mensagem": "Produto não encontrado"}), 404
     
